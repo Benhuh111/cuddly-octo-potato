@@ -1,0 +1,29 @@
+name: Java CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Operating system to run on
+
+    steps:
+      - uses: actions/checkout@v4 # Step 1: get the code from our repo
+
+      - name: Set up JDK 22 # Step 2: install java developer kit
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+
+      - name: Build with Maven # Step 3: build project using Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Run program # Step 4: run our program
+        run: java -cp target/app-1.jar org.example.Main > out.txt
+
+      - name: Upload output # Step 5: upload artifact (output)
+        uses: actions/upload-artifact@v4
+        with:
+          path: 'out.txt'
+          name: 'random-number-output'
+
