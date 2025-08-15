@@ -1,29 +1,24 @@
-name: Java CI
+name: CI/CD
 
-on: [push]
+on:
+  push:
+    branches: [ main, feature/* ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Operating system to run on
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4 # Step 1: get the code from our repo
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 22 # Step 2: install java developer kit
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '22'
+          java-version: '17'
 
-      - name: Build with Maven # Step 3: build project using Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Run program
-        run: java -jar target/cuddly_octo_potato-0.0.1-SNAPSHOT.jar > out.txt
-
-      - name: Upload output # Step 5: upload artifact (output)
-        uses: actions/upload-artifact@v4
-        with:
-          path: 'out.txt'
-          name: 'random-number-output'
-
+      - name: Build with Maven
+        run: mvn clean install
