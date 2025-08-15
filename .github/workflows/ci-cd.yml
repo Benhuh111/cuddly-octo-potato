@@ -18,8 +18,8 @@ jobs:
       - name: Build with Maven # Step 3: build project using Maven
         run: mvn -B package --file pom.xml
 
-      - name: Run program # Step 4: run our program
-        run: java -cp target/app-1.jar org.example.Main > out.txt
+      - name: Run program
+        run: java -jar target/cuddly_octo_potato-0.0.1-SNAPSHOT.jar > out.txt
 
       - name: Upload output # Step 5: upload artifact (output)
         uses: actions/upload-artifact@v4
